@@ -14,6 +14,7 @@ export const LandingMarquee = ({
   animationDurationInSeconds,
   animationDirection,
   variant = 'primary',
+  gap = '8px', // Added gap property with default value
 }: {
   className?: string;
   innerClassName?: string;
@@ -22,6 +23,7 @@ export const LandingMarquee = ({
   animationDurationInSeconds?: number;
   animationDirection?: 'left' | 'right';
   variant?: 'primary' | 'secondary';
+  gap?: string; // Added gap property
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [repeat, setRepeat] = useState(3); // Initial value, can be adjusted
@@ -35,7 +37,7 @@ export const LandingMarquee = ({
           .firstChild as HTMLElement | null;
         const grandChild = firstChild?.firstChild as HTMLElement | null;
         const childWidth = grandChild?.offsetWidth || 1;
-        const visibleItems = Math.ceil(containerWidth / childWidth);
+        const visibleItems = Math.ceil(containerWidth / (childWidth + parseInt(gap, 10))); // Adjusted to include gap
         setRepeat(visibleItems + 1); // Adding extra to ensure smooth loop
 
         if (animationDurationInSeconds) {
@@ -51,7 +53,7 @@ export const LandingMarquee = ({
     updateRepeatCount();
     window.addEventListener('resize', updateRepeatCount);
     return () => window.removeEventListener('resize', updateRepeatCount);
-  }, [animationDurationInSeconds]);
+  }, [animationDurationInSeconds, gap]); // Added gap to dependency array
 
   return (
     <div
@@ -84,7 +86,7 @@ export const LandingMarquee = ({
           .map((child, index) => (
             <div
               key={index}
-              className="flex items-center justify-center flex-shrink-0"
+              className="flex items-center justify-center flex-shrink-0 mr-4" // Added margin-right for gap
             >
               {child}
             </div>

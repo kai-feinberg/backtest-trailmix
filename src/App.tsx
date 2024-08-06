@@ -5,6 +5,7 @@ import { LandingProductFeature } from './components/landing/LandingProductFeatur
 import { LandingProductFeatureKeyPoints } from './components/landing/LandingProductFeatureKeyPoints';
 import { Tweet } from 'react-tweet';
 import { LandingMarquee } from './components/landing/LandingMarquee';
+import Backtesting from './components/landing/Backtesting';
 
 const keyPoints = [
   {
@@ -27,7 +28,7 @@ const keyPoints = [
 function App() {
   return (
     <>
-      <div className='flex flex-col'>
+      <div style={{ width: '100%' }}>
         <LandingPrimaryImageCtaSection
           title="Stop roundtripping... please"
           description="Get 10x more done with Shadcn UI, React & Next.js, and say goodbye to repetitive tasks. You'll never go back."
@@ -42,15 +43,16 @@ function App() {
             <a href="#" className='text-white'>Test Strategies</a>
           </Button>
         </LandingPrimaryImageCtaSection>
-{/*         
-        <div className="w-full overflow-hidden">
-          <LandingMarquee animationDirection='right' className='max-w-6xl'>
+        
+        <div>
+          <LandingMarquee animationDirection='right'>
+        
             <Tweet id="1820298304028090650" />
-            <Tweet id="1820298304028090650" />
+            <Tweet id="1819390987812135258" />
             <Tweet id="1820298304028090650" />
             <Tweet id="1820298304028090650" />
           </LandingMarquee>
-        </div> */}
+        </div>
 
 
         <LandingProductFeature
@@ -65,7 +67,10 @@ function App() {
           imagePosition="left"
           imagePerspective="right"
         />
+
+        <Backtesting/>
       </div>
+
 
 
     </>
