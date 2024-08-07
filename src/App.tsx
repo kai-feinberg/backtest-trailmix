@@ -9,19 +9,19 @@ import Backtesting from './components/landing/Backtesting';
 
 const keyPoints = [
   {
-    title: 'Fast',
+    title: 'Flexible',
     description:
-      'Capture screenshots in seconds. No more waiting. No more fiddling with scripts.',
+      'Pick from a variety of popular coins to test your skills',
   },
   {
-    title: 'Secure',
+    title: 'Simple',
     description:
-      '100% encrypted and secure. Your data is safe with us, always. Privacy first.',
+      'Each strategy comes with an explanation and pros and cons list',
   },
   {
-    title: 'Support',
+    title: 'Applicable',
     description:
-      '24/7 customer support. We are here to help you at any time of the day. Just ask.',
+      'Easy guides to get started and a community to help you along the way',
   },
 ];
 
@@ -43,20 +43,24 @@ function App() {
             <a href="#" className='text-white'>Test Strategies</a>
           </Button>
         </LandingPrimaryImageCtaSection>
-        
+
         <div>
           <LandingMarquee animationDirection='right'>
-        
-            <Tweet id="1820298304028090650" />
-            <Tweet id="1819390987812135258" />
-            <Tweet id="1820298304028090650" />
-            <Tweet id="1820298304028090650" />
+
+            <Tweet id="1816277195691810931" />
+            <Tweet id="1798967005728694550" />
+            <Tweet id="1785293845808525520" />
+            <Tweet id="1779435680193556628" />
+            <Tweet id="1779261503599702235" />
+            <Tweet id="1775965959448154420" />
+            <Tweet id="1775218912252367240" />
+
           </LandingMarquee>
         </div>
 
 
         <LandingProductFeature
-          title="Crystal clear captures"
+          title="Battle test your strategies"
           descriptionComponent={
             <>
               <LandingProductFeatureKeyPoints keyPoints={keyPoints} />
@@ -68,9 +72,11 @@ function App() {
           imagePerspective="right"
         />
 
-        <Backtesting/>
+        <Backtesting />
       </div>
-
+      
+      <div className="mb-8">
+      </div>
 
 
     </>
