@@ -3,11 +3,11 @@
 import { CartesianGrid, Line, AreaChart, Area, XAxis, ResponsiveContainer } from "recharts"
 import coinData from "@/lib/updated_backtest.json"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useInView } from "react-intersection-observer"
 
 import {
     Card,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
@@ -19,8 +19,9 @@ import {
 } from "@/components/ui/chart"
 import { useState } from "react"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "../ui/button"
+import { Activity } from "lucide-react"
 
+import CountUp from 'react-countup';
 type CoinKey = keyof typeof coinData; // Define a type for the keys of coinData
 
 const chartConfig = {
@@ -46,7 +47,11 @@ export default function Backtesting() {
 
     const hodlProfit = data[data.length - 1].hold_value - data[0].hold_value
 
-    
+
+    const { ref, inView } = useInView({
+        triggerOnce: true, // Trigger only once when it becomes visible
+        threshold: 0.1,    // Percentage of element visible before triggering
+    });
 
     function formatNumber(num: number) {
         return new Intl.NumberFormat('en-US').format(num);
@@ -70,7 +75,7 @@ export default function Backtesting() {
                             <SelectItem value="optimism">Optimism (OP)</SelectItem>
                             <SelectItem value="arbitrum">Arbitrum (ARB)</SelectItem>
                             <SelectItem value="uniswap">Uniswap (UNI)</SelectItem>
-                            <SelectItem value="chainlink">Chainlink (LINK)</SelectItem>                            
+                            <SelectItem value="chainlink">Chainlink (LINK)</SelectItem>
                         </SelectContent>
                     </Select>
                     <p className="text-5xl font-medium">
@@ -91,7 +96,7 @@ export default function Backtesting() {
                                     </CardDescription>
                                 </CardHeader>
                                 <Badge className={`text-base ${Number(profit) >= 0 ? 'bg-green-200' : 'bg-red-200'} h-full text-black`}>
-                                    {profit > 0 ? `+$${formatNumber(Number(profit.toFixed(0)))}` : `-$${formatNumber(Number(Math.abs(profit).toFixed(0)))}`}
+                                    {profit > 0 ? `$${formatNumber(Number(profit.toFixed(0))+10000)}` : `$${formatNumber(Number(Math.abs(profit).toFixed(0))+10000)}`}
                                 </Badge>
                             </div>
                             <ResponsiveContainer width="100%" height="100%">
@@ -149,107 +154,208 @@ export default function Backtesting() {
                             </ResponsiveContainer>
                         </div>
                     </div>
-                    <CardFooter>
-                        <p>
-                            Pros
-                            - aasdfasdasd
-                            -adsfasd
-                        </p>
-                    </CardFooter>
-                </Card >
-                <Card className="bg-gray-900 rounded-xl border p-6 w-2/5 max-w-4xl">                  
-                  <div className="space-y-4">
-                    <div className="aspect-[16/9] mb-2 w-full">
-                        <div className="flex flex-row justify-between align-items-flex-end">
-                            <CardHeader>
-                                <CardTitle>Buy and Hold</CardTitle>
-                                <CardDescription>
-                                    HODL strategy
-                                </CardDescription>
-                            </CardHeader>
-                            <Badge className={`text-base ${Number(hodlProfit) >= 0 ? 'bg-green-200' : 'bg-red-200'} h-full text-black`}>
-                                {hodlProfit > 0 ? `+$${formatNumber(Number(hodlProfit.toFixed(0)))}` : `-$${formatNumber(Number(Math.abs(hodlProfit).toFixed(0)))}`}
-                            </Badge>
-                        </div>
-                        <ResponsiveContainer width="100%" height="100%">
-                            <ChartContainer config={chartConfig}>
-                                <AreaChart
-                                    accessibilityLayer
-                                    data={data}
-                                    margin={{
-                                        left: 12,
-                                        right: 12,
-                                    }}
-                                >
-                                    <CartesianGrid vertical={false} />
-                                    <XAxis
-                                        dataKey="timestamp"
-                                        tickLine={false}
-                                        axisLine={false}
-                                        tickMargin={8}
-                                        tickFormatter={(value) => value.slice(0, 4)}
-                                        tick={false}
-                                    />
-                                    <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
-                                    <defs>
-                                        <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
-                                            <stop
-                                                offset="5%"
-                                                stopColor="#8884d8"
-                                                stopOpacity={0.8}
-                                            />
-                                            <stop
-                                                offset="95%"
-                                                stopColor="#8884d8"
-                                                stopOpacity={0.1}
-                                            />
-                                        </linearGradient>
-                                    </defs>
-                                    <Area
-                                        dataKey="hold_value"
-                                        type="natural"
-                                        fill="url(#fillDesktop)"
-                                        fillOpacity={0.4}
-                                        stroke="#8884a8"
-                                    />
-                                    <Line
-                                        dataKey="hold_value"
-                                        type="monotone"
-                                        stroke="red"
-                                        strokeWidth={2}
-                                        dot={false}
-                                    />
-                                </AreaChart>
-                            </ChartContainer>
-                        </ResponsiveContainer>
+
+                    <div className="text-xl underline font-bold mt-10 mb-5 pl-2">
+                        Pros and Cons
                     </div>
-                </div>
-                    <CardFooter>
-                        <p>
-                            Pros
-                            - aasdfasdasd
-                            -adsfasd
-                        </p>
-                    </CardFooter>
+
+                    <div className="grid grid-cols-2 gap-6 mb-4">
+                        <div className="space-y-6">
+                            <div className="flex items-start gap-3">
+                                <Activity className="h-6 w-6 text-green-500" />
+                                <div>
+                                    <h4 className="font-medium">Improved Returns</h4>
+                                    <p className="text-muted-foreground">TrailMix out performs HODLing on all assets.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <Activity className="h-6 w-6 text-green-500" />
+                                <div>
+                                    <h4 className="font-medium">Automatic risk management</h4>
+                                    <p className="text-muted-foreground">Withdraw at any time knowing your gains have been locked in.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <Activity className="h-6 w-6 text-green-500" />
+                                <div>
+                                    <h4 className="font-medium">Customizable</h4>
+                                    <p className="text-muted-foreground">Choose from a variety of preset strategies for any asset.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="space-y-6">
+                            <div className="flex items-start gap-3">
+                                <Activity className="h-6 w-6 text-red-500" />
+                                <div>
+                                    <h4 className="font-medium">Opportunity Cost</h4>
+                                    <p className="text-muted-foreground">Funds cannot participate in DeFi strategies.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <Activity className="h-6 w-6 text-red-500" />
+                                <div>
+                                    <h4 className="font-medium">Smart contract risk</h4>
+                                    <p className="text-muted-foreground">Potential for (unlikely) exploit or attack.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </Card >
-            </div>
-            
-            <div> explanation here</div>
-            
-            <div className="flex flex-row py-10 justify-center gap-10">
-                <p className="text-3xl font-medium w-[40%]">See how this compares to investing in the crypto market as a whole</p>
                 <Card className="bg-gray-900 rounded-xl border p-6 w-2/5 max-w-4xl">
-                      <div className="space-y-4">
+                    <div className="space-y-4">
                         <div className="aspect-[16/9] mb-2 w-full">
                             <div className="flex flex-row justify-between align-items-flex-end">
                                 <CardHeader>
-                                    <CardTitle>Crypto Market Index (AMKT)</CardTitle>
+                                    <CardTitle>Buy and Hold</CardTitle>
+                                    <CardDescription>
+                                        HODL strategy
+                                    </CardDescription>
+                                </CardHeader>
+                                <Badge className={`text-base ${Number(hodlProfit) >= 0 ? 'bg-green-200' : 'bg-red-200'} h-full text-black`}>
+                                {   hodlProfit > 0 ? `$${formatNumber(Number(hodlProfit.toFixed(0))+10000)}` : `$${formatNumber(Number((hodlProfit).toFixed(0))+10000)}`}
+                                </Badge>
+                            </div>
+                            <ResponsiveContainer width="100%" height="100%">
+                                <ChartContainer config={chartConfig}>
+                                    <AreaChart
+                                        accessibilityLayer
+                                        data={data}
+                                        margin={{
+                                            left: 12,
+                                            right: 12,
+                                        }}
+                                    >
+                                        <CartesianGrid vertical={false} />
+                                        <XAxis
+                                            dataKey="timestamp"
+                                            tickLine={false}
+                                            axisLine={false}
+                                            tickMargin={8}
+                                            tickFormatter={(value) => value.slice(0, 4)}
+                                            tick={false}
+                                        />
+                                        <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
+                                        <defs>
+                                            <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
+                                                <stop
+                                                    offset="5%"
+                                                    stopColor="#8884d8"
+                                                    stopOpacity={0.8}
+                                                />
+                                                <stop
+                                                    offset="95%"
+                                                    stopColor="#8884d8"
+                                                    stopOpacity={0.1}
+                                                />
+                                            </linearGradient>
+                                        </defs>
+                                        <Area
+                                            dataKey="hold_value"
+                                            type="natural"
+                                            fill="url(#fillDesktop)"
+                                            fillOpacity={0.4}
+                                            stroke="#8884a8"
+                                        />
+                                        <Line
+                                            dataKey="hold_value"
+                                            type="monotone"
+                                            stroke="red"
+                                            strokeWidth={2}
+                                            dot={false}
+                                        />
+                                    </AreaChart>
+                                </ChartContainer>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
+                    <div className="text-xl underline font-bold mt-10 mb-5 pl-2">
+                        Pros and Cons
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6 mb-4">
+                        <div className="space-y-6">
+                            <div className="flex items-start gap-3">
+                                <Activity className="h-6 w-6 text-green-500" />
+                                <div>
+                                    <h4 className="font-medium">Simplest Strategy</h4>
+                                    <p className="text-muted-foreground">Just buy and forget. It's that easy.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <Activity className="h-6 w-6 text-green-500" />
+                                <div>
+                                    <h4 className="font-medium">Most Flexible</h4>
+                                    <p className="text-muted-foreground">Can do for any asset across any network.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div className="space-y-6">
+                            <div className="flex items-start gap-3">
+                                <Activity className="h-6 w-6 text-red-500" />
+                                <div>
+                                    <h4 className="font-medium">Huge volatility</h4>
+                                    <p className="text-muted-foreground">Portfolio will undergo massive changes in value.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <Activity className="h-6 w-6 text-red-500" />
+                                <div>
+                                    <h4 className="font-medium">Inefficient</h4>
+                                    <p className="text-muted-foreground">Unable to capture profits from swings in market.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <Activity className="h-6 w-6 text-red-500" />
+                                <div>
+                                    <h4 className="font-medium">No rug protection</h4>
+                                    <p className="text-muted-foreground">No protection against crashes, rugs, or downturns.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Card >
+            </div>
+            <div className="text-center mt-10" ref={ref}>
+                <h2 className="text-2xl font-bold m-4">Wow thats a pretty big difference. You could've made an additional</h2>
+                {inView ? (
+                    <div className="text-4xl font-bold">
+                    <span className="text-green-500">
+                        +$<CountUp start={0} end={profit-hodlProfit} duration={3}/>
+                    </span>
+                </div>) : <div>0</div>}
+                <h2 className="text-2xl font-bold m-4">just by using TrailMix! 😲</h2>
+
+                <p>
+                    TrailMix uses Trailing stop losses to help manage your risk and lock in profits. IF you want to learn more youc an click here or 
+                    check out trailmix.cash to get started.
+
+                    For more investing strategies such as DCA, HODL, and more I'd reccomend checking out Uniswap and Carbon DeFi.
+
+                </p>
+
+
+            </div>
+
+            <div className="flex flex-row py-10 justify-center gap-10">
+                <div className="flex flex-col w-[30%]">
+                    <p className="text-3xl font-medium mb-10">Wait one last thing! Let' see how this compares to investing in the crypto market as a whole</p>
+                    <p className="text-3xl font-medium">$AMKT is the token of the Alongside Crypto Market Index which tracks the market cap of the top cryptos. You can check them out here...</p>
+                </div>
+                <Card className="bg-gray-900 rounded-xl border p-6 w-2/5 max-w-4xl">
+                    <div className="space-y-4">
+                        <div className="aspect-[16/9] mb-2 w-full">
+                            <div className="flex flex-row justify-between align-items-flex-end">
+                                <CardHeader>
+                                    <CardTitle>Crypto Market Index ($AMKT)</CardTitle>
                                     <CardDescription>
                                         HODL strategy
                                     </CardDescription>
                                 </CardHeader>
                                 <Badge className={`text-base ${Number(amktProfit) >= 0 ? 'bg-green-200' : 'bg-red-200'} h-full text-black`}>
-                                    {amktProfit > 0 ? `+$${formatNumber(Number(amktProfit.toFixed(0)))}` : `-$${formatNumber(Number(Math.abs(amktProfit).toFixed(0)))}`}
+                                    {amktProfit > 0 ? `$${formatNumber(Number(amktProfit.toFixed(0))+10000)}` : `$${formatNumber(Number(Math.abs(amktProfit).toFixed(0))+10000)}`}
+
                                 </Badge>
                             </div>
                             <ResponsiveContainer width="100%" height="100%">
@@ -305,14 +411,53 @@ export default function Backtesting() {
                             </ResponsiveContainer>
                         </div>
                     </div>
-                        <CardFooter>
-                            <p>
-                                Pros
-                                - aasdfasdasd
-                                -adsfasd
-                            </p>
-                        </CardFooter>
-                    </Card >
+                    <div className="text-xl underline font-bold mt-10 mb-5 pl-2">
+                        Pros and Cons
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6 mb-4">
+                        <div className="space-y-6">
+                            <div className="flex items-start gap-3">
+                                <Activity className="h-6 w-6 text-green-500" />
+                                <div>
+                                    <h4 className="font-medium">Lessened Volatility</h4>
+                                    <p className="text-muted-foreground">The crypto market will move less than any one coin.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <Activity className="h-6 w-6 text-green-500" />
+                                <div>
+                                    <h4 className="font-medium">Diversification</h4>
+                                    <p className="text-muted-foreground">Captures upside for crypto market as a whole.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div className="space-y-6">
+                            <div className="flex items-start gap-3">
+                                <Activity className="h-6 w-6 text-red-500" />
+                                <div>
+                                    <h4 className="font-medium">Reduced upside</h4>
+                                    <p className="text-muted-foreground">Limited returns on investment relative to other strategies.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <Activity className="h-6 w-6 text-red-500" />
+                                <div>
+                                    <h4 className="font-medium">Still significant volatility</h4>
+                                    <p className="text-muted-foreground">Crypto market itself undergoes swings of 50-70%.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <Activity className="h-6 w-6 text-red-500" />
+                                <div>
+                                    <h4 className="font-medium">Relies on trusted oracles</h4>
+                                    <p className="text-muted-foreground">Smart contract risk in depending on third parties</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Card >
             </div>
         </div >
 
