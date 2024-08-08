@@ -6,6 +6,7 @@ import { LandingProductFeatureKeyPoints } from './components/landing/LandingProd
 import { Tweet } from 'react-tweet';
 import { LandingMarquee } from './components/landing/LandingMarquee';
 import Backtesting from './components/landing/Backtesting';
+import LogoWhite from './components/landing/logo-white';
 
 const keyPoints = [
   {
@@ -26,12 +27,24 @@ const keyPoints = [
 ];
 
 function App() {
+  const scrollDown = () => {
+    const backtestingDiv = document.getElementById('backtesting');
+    if (backtestingDiv) {
+      backtestingDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <>
       <div style={{ width: '100%' }}>
+        <div className="bg-gray-600 flex justify-center p-6 w-[80%]">
+          <div className='flex justify-start'>
+            <LogoWhite />
+          </div>
+        </div>
         <LandingPrimaryImageCtaSection
           title="Stop roundtripping... please"
-          description="Get 10x more done with Shadcn UI, React & Next.js, and say goodbye to repetitive tasks. You'll never go back."
+          description="Find the strategy that works for you. Take profits, cut losses, and make it to the otherside. You got this!"
           imageSrc='/ctaImage.png'
           imageAlt='cta-image'
           variant='primary'
@@ -39,19 +52,16 @@ function App() {
           withBackgroundGlow={true}
           backgroundGlowVariant='primary'
         >
-          <Button size="xl" asChild>
-            <a href="#" className='text-white'>Test Strategies</a>
+          <Button size="xl" asChild onClick={scrollDown}>
+            <a className='text-white'>Test Strategies</a>
           </Button>
         </LandingPrimaryImageCtaSection>
 
-        <div>
-          <LandingMarquee animationDirection='right'>
-
+        <div >
+          <LandingMarquee animationDirection='right' >
             <Tweet id="1816277195691810931" />
             <Tweet id="1798967005728694550" />
             <Tweet id="1785293845808525520" />
-            <Tweet id="1779435680193556628" />
-            <Tweet id="1779261503599702235" />
             <Tweet id="1775965959448154420" />
             <Tweet id="1775218912252367240" />
 
@@ -72,9 +82,11 @@ function App() {
           imagePerspective="right"
         />
 
-        <Backtesting />
+        <div id="backtesting">
+          <Backtesting />
+        </div>
       </div>
-      
+
       <div className="mb-8">
       </div>
 

@@ -66,7 +66,7 @@ export default function Backtesting() {
                         $10k deposited into
                     </p>
                     <Select value={coin} onValueChange={(value: CoinKey) => setCoin(value)}>
-                        <SelectTrigger className="bg-transparent rounded-xl mb-4 align-center text-lg inline-flex w-auto min-w-[200px]">
+                        <SelectTrigger className="bg-transparent rounded-xl mb-8 align-center text-4xl inline-flex w-auto min-w-[200px]">
                             <SelectValue placeholder="Select a token" />
                         </SelectTrigger>
                         <SelectContent className="bg-black text-white">
@@ -90,7 +90,7 @@ export default function Backtesting() {
                         <div className="aspect-[16/9] mb-2 w-full">
                             <div className="flex flex-row justify-between align-items-flex-end">
                                 <CardHeader>
-                                    <CardTitle>Trailmix</CardTitle>
+                                    <CardTitle><a href="https://trailmix.cash" target="_blank" rel="noopener noreferrer" className="text-white">Trailmix.cash</a></CardTitle>
                                     <CardDescription>
                                         Default Trailmix strategy
                                     </CardDescription>
@@ -315,33 +315,28 @@ export default function Backtesting() {
                             </div>
                         </div>
                     </div>
+                    
                 </Card >
             </div>
             <div className="text-center mt-10" ref={ref}>
-                <h2 className="text-2xl font-bold m-4">Wow thats a pretty big difference. You could've made an additional</h2>
                 {inView ? (
                     <div className="text-4xl font-bold">
                     <span className="text-green-500">
                         +$<CountUp start={0} end={profit-hodlProfit} duration={3}/>
                     </span>
                 </div>) : <div>0</div>}
-                <h2 className="text-2xl font-bold m-4">just by using TrailMix! 😲</h2>
-
-                <p>
-                    TrailMix uses Trailing stop losses to help manage your risk and lock in profits. IF you want to learn more youc an click here or 
-                    check out trailmix.cash to get started.
-
-                    For more investing strategies such as DCA, HODL, and more I'd reccomend checking out Uniswap and Carbon DeFi.
-
-                </p>
-
+                <h2 className="text-2xl font-bold m-4">Wow thats a pretty big difference. You could've made an additional ${formatNumber((profit-hodlProfit))}</h2>
+                <h2 className="text-2xl font-bold m-4">just by using TrailMix! 
+                    Learn more about TrailMix <a href="https://medium.com/@trailmix.crypto/introduction-to-trailmix-8f4cc81375b5" target="_blank" rel="noopener noreferrer">here</a></h2>
 
             </div>
-
-            <div className="flex flex-row py-10 justify-center gap-10">
+             
+            <div className="flex flex-row py-10 justify-center gap-10 mt-10">
                 <div className="flex flex-col w-[30%]">
-                    <p className="text-3xl font-medium mb-10">Wait one last thing! Let' see how this compares to investing in the crypto market as a whole</p>
-                    <p className="text-3xl font-medium">$AMKT is the token of the Alongside Crypto Market Index which tracks the market cap of the top cryptos. You can check them out here...</p>
+                    <p className="text-3xl font-medium mb-10">Let's see how this compares to investing in the crypto market as a whole</p>
+                    <p className="text-xl">$AMKT is the token of the Alongside Crypto Market Index which tracks the market cap of the top cryptos. You can check them out at 
+                        <a href="https://alongside.xyz/en-us" target="_blank" rel="noopener noreferrer"> alongside.xyz</a>
+                    </p>
                 </div>
                 <Card className="bg-gray-900 rounded-xl border p-6 w-2/5 max-w-4xl">
                     <div className="space-y-4">
